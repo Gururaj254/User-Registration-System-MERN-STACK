@@ -1,10 +1,12 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react'; // Added useState
 import { AuthContext } from './context/AuthContext';
 import Login from './pages/Login';
+import Register from './pages/Register'; // Import Register
 import './App.css';
 
 function App() {
   const { user, logout } = useContext(AuthContext);
+  const [isRegistering, setIsRegistering] = useState(false); // Toggle state
 
   return (
     <div className="App">
@@ -20,7 +22,12 @@ function App() {
             <p>Your Token: {user.token.substring(0, 20)}...</p>
           </div>
         ) : (
-          <Login />
+          <div>
+            {isRegistering ? <Register /> : <Login />}
+            <button onClick={() => setIsRegistering(!isRegistering)} style={{marginTop: '10px'}}>
+              {isRegistering ? "Back to Login" : "Don't have an account? Register"}
+            </button>
+          </div>
         )}
       </main>
     </div>

@@ -1,8 +1,10 @@
 const express = require('express');
-const { authUser, registerUser } = require('../controllers/userController');
 const router = express.Router();
+const { registerUser, authUser } = require('../controllers/userController');
 
-router.post('/', registerUser); // POST /api/users
-router.post('/login', authUser); // POST /api/users/login
+// The Register.jsx 'POST /' hits this:
+router.post('/', registerUser); 
+// The Login.jsx 'POST /login' hits this:
+router.post('/login', authUser);
 
 module.exports = router;
