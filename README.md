@@ -1,4 +1,4 @@
-# AuthFlow 🚀 | Full-Stack Identity Suite
+# AuthFlow: Secure Registration System 🚀
 
 **AuthFlow** is a professional, full-stack authentication and user management system built with **Node.js, MySQL, and React**. It goes beyond simple registration by offering Role-Based Access Control (RBAC), secure password recovery, and a polished, modern UI.
 
