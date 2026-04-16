@@ -1,32 +1,36 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
-const connectDB = require('./config/db');
-const userRoutes = require('./routes/userRoutes'); // 1. Import Routes
+const { connectDB } = require('./config/db'); // Destructured for MySQL/Sequelize object
+const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
+
+// Initialize MySQL Connection
 connectDB(); 
 
 const app = express();
 
+// Middleware
 app.use(cors());
 app.use(express.json()); 
 
-// 2. Define API Routes
+// Routes
 app.use('/api/users', userRoutes);
 
 // Test Route
 app.get('/', (req, res) => {
-    res.send('API is running safely...');
+    res.send('API is running safely on MySQL...');
 });
 
-// 3. Global Error Handling Middleware (The "Scalable" touch)
+// 404 Error Handler
 app.use((req, res, next) => {
     const error = new Error(`Not Found - ${req.originalUrl}`);
     res.status(404);
     next(error);
 });
 
+// Global Error Handler
 app.use((err, req, res, next) => {
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode;
     res.status(statusCode);
@@ -36,5 +40,9 @@ app.use((err, req, res, next) => {
     });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+// Use Port 5002 as per your new .env setting
+const PORT = process.env.PORT || 5002;
+
+app.listen(PORT, () => {
+    console.log(`🚀 Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+});
