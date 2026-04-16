@@ -4,13 +4,14 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true); // Added loading state
 
   useEffect(() => {
-    // Look for existing user session in browser storage
     const storedUser = localStorage.getItem('userInfo');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+    setLoading(false); // Finished checking storage
   }, []);
 
   const logout = () => {
@@ -19,8 +20,8 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, logout }}>
-      {children}
+    <AuthContext.Provider value={{ user, setUser, logout, loading }}>
+      {!loading && children} {/* Don't render the app until we know if user is logged in */}
     </AuthContext.Provider>
   );
 };
